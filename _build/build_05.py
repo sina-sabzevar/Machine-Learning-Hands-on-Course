@@ -17,7 +17,7 @@ A(md(r"""
 - Derive and implement **Gaussian naive Bayes** and **multinomial naive Bayes** with Laplace smoothing.
 - Derive **LDA** and **QDA** as Gaussian generative classifiers, implement them, and visualize their boundaries.
 
-**Prerequisites**: `03_logistic_regression_and_classification.ipynb` (probabilistic classification, metrics), `04_model_evaluation_and_selection.ipynb` (cross-validation, pipelines). Multivariate Gaussians and Bayes' rule.
+**Prerequisites**: [`03_logistic_regression_and_classification.ipynb`](03_logistic_regression_and_classification.ipynb) (probabilistic classification, metrics), [`04_model_evaluation_and_selection.ipynb`](04_model_evaluation_and_selection.ipynb) (cross-validation, pipelines). Multivariate Gaussians and Bayes' rule.
 
 **Contents**
 

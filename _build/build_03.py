@@ -16,7 +16,7 @@ A(md(r"""
 - Evaluate classifiers properly: confusion matrix, accuracy, precision, recall, $F_1$, ROC/AUC (from scratch), precision–recall curves.
 - Choose decision thresholds, handle class imbalance, and assess probability calibration.
 
-**Prerequisites**: `01_*.ipynb` (ML foundations, NumPy), `02_*.ipynb` (linear regression, gradient descent, regularization). Basic probability (Bernoulli, likelihood) and multivariable calculus.
+**Prerequisites**: [`00_course_introduction_and_python_toolkit.ipynb`](00_course_introduction_and_python_toolkit.ipynb) and [`01_mathematical_foundations.ipynb`](01_mathematical_foundations.ipynb) (ML foundations, NumPy, math), [`02_linear_regression.ipynb`](02_linear_regression.ipynb) (linear regression, gradient descent, regularization). Basic probability (Bernoulli, likelihood) and multivariable calculus.
 
 **Contents**
 

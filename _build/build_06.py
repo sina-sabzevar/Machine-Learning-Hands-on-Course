@@ -17,8 +17,8 @@ A(md(r"""
 
 **Prerequisites**
 
-- Linear models and gradient descent (Lectures 02–04 in `notebooks/`, e.g. linear/logistic regression).
-- Regularisation and cross-validation (Lecture 05).
+- Linear models and gradient descent ([`02_linear_regression.ipynb`](02_linear_regression.ipynb), [`03_logistic_regression_and_classification.ipynb`](03_logistic_regression_and_classification.ipynb)).
+- Regularisation and cross-validation ([`02_linear_regression.ipynb`](02_linear_regression.ipynb), [`04_model_evaluation_and_selection.ipynb`](04_model_evaluation_and_selection.ipynb)).
 - Basic constrained optimisation (Lagrange multipliers).
 
 **Contents**

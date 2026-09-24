@@ -21,9 +21,9 @@ By the end of this lecture you will be able to:
 
 **Prerequisites**
 
-- Linear and logistic regression, softmax regression and gradient descent (earlier lectures on linear models and optimisation in `notebooks/`, e.g. the logistic-regression notebook).
-- Bias–variance trade-off, regularisation and model evaluation (earlier lectures on model selection).
-- Multivariable calculus (chain rule, Jacobians) and linear algebra (matrix products).
+- [`01_mathematical_foundations.ipynb`](01_mathematical_foundations.ipynb) (matrix calculus, gradient descent and conditioning).
+- [`02_linear_regression.ipynb`](02_linear_regression.ipynb) (gradient descent, L2 regularisation) and [`03_logistic_regression_and_classification.ipynb`](03_logistic_regression_and_classification.ipynb) (logistic/softmax regression, cross-entropy).
+- [`04_model_evaluation_and_selection.ipynb`](04_model_evaluation_and_selection.ipynb) (train/validation/test splits, overfitting, bias–variance).
 
 **Contents**
 

@@ -16,7 +16,7 @@ cells.append(md(r"""
 
 **Prerequisites**
 
-- `00_course_introduction_and_python_toolkit.ipynb` (NumPy, plotting, the learning problem).
+- [`00_course_introduction_and_python_toolkit.ipynb`](00_course_introduction_and_python_toolkit.ipynb) (NumPy, plotting, the learning problem).
 - First-year calculus and linear algebra.
 
 **Contents**

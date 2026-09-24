@@ -19,9 +19,9 @@ A(md(r"""
 
 **Prerequisites**
 
-- Bias–variance trade-off and cross-validation (Lecture 05 in `notebooks/`).
-- Linear and logistic regression, gradient descent (Lectures 02–04).
-- Lecture 06 (`06_support_vector_machines.ipynb`) for the margin / surrogate-loss viewpoint used in boosting.
+- Bias–variance trade-off and cross-validation ([`04_model_evaluation_and_selection.ipynb`](04_model_evaluation_and_selection.ipynb)).
+- Linear and logistic regression, gradient descent ([`02_linear_regression.ipynb`](02_linear_regression.ipynb), [`03_logistic_regression_and_classification.ipynb`](03_logistic_regression_and_classification.ipynb)).
+- Lecture 06 ([`06_support_vector_machines.ipynb`](06_support_vector_machines.ipynb)) for the margin / surrogate-loss viewpoint used in boosting.
 
 **Contents**
 

@@ -17,7 +17,7 @@ A(md(r"""
 - Build realistic preprocessing with `ColumnTransformer` (imputation, scaling, one-hot encoding) on mixed-type data.
 - Compare two models statistically and understand the caveats (dependent folds, McNemar's test).
 
-**Prerequisites**: `02_*.ipynb` (linear regression, regularization), `03_logistic_regression_and_classification.ipynb` (logistic regression, classification metrics).
+**Prerequisites**: [`02_linear_regression.ipynb`](02_linear_regression.ipynb) (linear regression, regularization), [`03_logistic_regression_and_classification.ipynb`](03_logistic_regression_and_classification.ipynb) (logistic regression, classification metrics).
 
 **Contents**
 

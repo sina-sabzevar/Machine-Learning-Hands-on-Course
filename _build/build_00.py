@@ -20,7 +20,7 @@ By the end of this lecture you should be able to:
 **Prerequisites**
 
 - Basic Python programming (functions, lists, dictionaries, loops).
-- Linear algebra, calculus and probability at an introductory level (reviewed in `01_mathematical_foundations.ipynb`).
+- Linear algebra, calculus and probability at an introductory level (reviewed in [`01_mathematical_foundations.ipynb`](01_mathematical_foundations.ipynb)).
 
 **Contents**
 
@@ -174,9 +174,9 @@ cells.append(md(r"""
 
 | # | Notebook | Topic |
 |---|---|---|
-| 00 | `00_course_introduction_and_python_toolkit.ipynb` | The learning problem; NumPy, pandas, plotting, scikit-learn API |
-| 01 | `01_mathematical_foundations.ipynb` | Linear algebra, calculus, probability, optimization |
-| 02 | `02_linear_regression.ipynb` | Least squares, gradient descent, bias–variance, Ridge / Lasso |
+| 00 | [`00_course_introduction_and_python_toolkit.ipynb`](00_course_introduction_and_python_toolkit.ipynb) | The learning problem; NumPy, pandas, plotting, scikit-learn API |
+| 01 | [`01_mathematical_foundations.ipynb`](01_mathematical_foundations.ipynb) | Linear algebra, calculus, probability, optimization |
+| 02 | [`02_linear_regression.ipynb`](02_linear_regression.ipynb) | Least squares, gradient descent, bias–variance, Ridge / Lasso |
 | 03+ | later notebooks | Classification (logistic regression, generative models), model evaluation and selection, SVMs and kernels, trees and ensembles, unsupervised learning (clustering, PCA), neural networks and deep learning |
 
 Each lecture follows the same rhythm: **derive** the method, **implement it from scratch** in NumPy, **verify**

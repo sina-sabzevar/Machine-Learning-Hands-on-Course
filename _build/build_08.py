@@ -19,8 +19,8 @@ A(md(r"""
 
 **Prerequisites**
 
-- Linear algebra and multivariate Gaussians; maximum likelihood estimation (Lectures 01–03 in `notebooks/`).
-- Lecture 07 (`07_decision_trees_and_ensembles.ipynb`) is not required; the following lecture, `09_dimensionality_reduction.ipynb`, builds on this one.
+- Linear algebra and multivariate Gaussians; maximum likelihood estimation ([`01_mathematical_foundations.ipynb`](01_mathematical_foundations.ipynb), [`05_knn_and_naive_bayes.ipynb`](05_knn_and_naive_bayes.ipynb) for Gaussian generative models).
+- Lecture 07 ([`07_decision_trees_and_ensembles.ipynb`](07_decision_trees_and_ensembles.ipynb)) is not required; the following lecture, [`09_dimensionality_reduction.ipynb`](09_dimensionality_reduction.ipynb), builds on this one.
 
 **Contents**
 

@@ -55,8 +55,8 @@ so you can read them directly on GitHub.
 
 ## Regenerating the notebooks
 
-The notebooks are generated from the Python scripts in [`_build/`](_build) (`python _build/build_NN.py`),
-which also execute them. Edit the scripts, not the `.ipynb` files, if you want reproducible changes.
+The notebooks are generated from the Python scripts in [`_build/`](_build) (`cd _build && python build_NN.py`),
+which also execute them. Build one notebook at a time; on machines with few cores, `export OMP_NUM_THREADS=1` speeds things up. Edit the scripts, not the `.ipynb` files, if you want reproducible changes.
 
 ## Recommended textbooks
 

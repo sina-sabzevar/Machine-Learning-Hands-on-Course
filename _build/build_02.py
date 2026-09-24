@@ -17,8 +17,8 @@ cells.append(md(r"""
 
 **Prerequisites**
 
-- `00_course_introduction_and_python_toolkit.ipynb` (risk, ERM, scikit-learn API).
-- `01_mathematical_foundations.ipynb` (matrix calculus, SVD, Gaussian MLE/MAP, gradient descent and conditioning).
+- [`00_course_introduction_and_python_toolkit.ipynb`](00_course_introduction_and_python_toolkit.ipynb) (risk, ERM, scikit-learn API).
+- [`01_mathematical_foundations.ipynb`](01_mathematical_foundations.ipynb) (matrix calculus, SVD, Gaussian MLE/MAP, gradient descent and conditioning).
 
 **Contents**
 

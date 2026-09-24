@@ -19,8 +19,8 @@ A(md(r"""
 
 **Prerequisites**
 
-- Linear algebra: eigenvalues/eigenvectors, SVD, orthogonal projections (Lecture 01 in `notebooks/`).
-- Lecture 06 (`06_support_vector_machines.ipynb`) for kernels, and Lecture 08 (`08_clustering.ipynb`) for unsupervised learning.
+- Linear algebra: eigenvalues/eigenvectors, SVD, orthogonal projections ([`01_mathematical_foundations.ipynb`](01_mathematical_foundations.ipynb)).
+- Lecture 06 ([`06_support_vector_machines.ipynb`](06_support_vector_machines.ipynb)) for kernels, and Lecture 08 ([`08_clustering.ipynb`](08_clustering.ipynb)) for unsupervised learning.
 
 **Contents**
 
