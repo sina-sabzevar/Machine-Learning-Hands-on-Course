@@ -113,6 +113,20 @@ print(f"selected depth={best_d}: min validation error={min(val_err):.3f} (optimi
 """))
 
 A(md(r"""
+**Quantifying the uncertainty of a test estimate: the bootstrap.** Resample the $m$ test points with replacement $B$ times, recompute the metric on each resample, and take the $2.5\%$ and $97.5\%$ quantiles as a (percentile) 95% confidence interval. This works for any metric (AUC, $F_1$, ...), not only for accuracy, but note that it captures only the **test-sample** variability, not the variability due to the training set.
+"""))
+
+A(code(r"""
+correct_test = (final.predict(X_test) == y_test).astype(float)
+B = 5000
+boot_idx = rng.integers(0, len(correct_test), (B, len(correct_test)))
+boot_acc = correct_test[boot_idx].mean(axis=1)
+lo, hi = np.quantile(boot_acc, [0.025, 0.975])
+print(f"test accuracy = {correct_test.mean():.3f}, bootstrap 95% CI = [{lo:.3f}, {hi:.3f}]")
+print(f"normal approximation: +/- {1.96 * np.sqrt(correct_test.mean() * (1 - correct_test.mean()) / len(correct_test)):.3f}")
+"""))
+
+A(md(r"""
 ## 2. $k$-fold cross-validation from scratch
 
 Partition the indices into $k$ disjoint folds $F_1,\dots,F_k$ of (nearly) equal size. For each $j$, train on all folds except $F_j$ and evaluate on $F_j$:
@@ -165,14 +179,27 @@ print("identical:", np.allclose(ours, theirs))
 
 A(code(r"""
 # Variability of the CV estimate: depends on k and on the random partition
-ks = [2, 3, 5, 10, 20]
-res = {k: [cross_val_score(model, Xb, yb, cv=KFold(k, shuffle=True, random_state=s)).mean() for s in range(15)]
+ks = [2, 5, 10, 20]
+res = {k: [cross_val_score(model, Xb, yb, cv=KFold(k, shuffle=True, random_state=s), n_jobs=-1).mean() for s in range(10)]
        for k in ks}
 plt.boxplot([res[k] for k in ks], tick_labels=[str(k) for k in ks])
-plt.xlabel("k"); plt.ylabel("mean CV accuracy"); plt.title("CV estimate across 15 random partitions")
+plt.xlabel("k"); plt.ylabel("mean CV accuracy"); plt.title("CV estimate across 10 random partitions")
 plt.show()
 for k in ks:
     print(f"k={k:2d}: mean over partitions={np.mean(res[k]):.4f}  sd across partitions={np.std(res[k]):.4f}")
+"""))
+
+A(md(r"""
+`cross_validate` returns several metrics at once, plus fit/score times and (optionally) training scores — the gap between training and validation scores is a first overfitting diagnostic.
+"""))
+
+A(code(r"""
+cvres = cross_validate(model, Xb, yb, cv=StratifiedKFold(5, shuffle=True, random_state=0),
+                       scoring=["accuracy", "roc_auc", "f1", "neg_log_loss"], return_train_score=True)
+summary = pd.DataFrame({m: [cvres[f"train_{m}"].mean(), cvres[f"test_{m}"].mean(), cvres[f"test_{m}"].std()]
+                        for m in ["accuracy", "roc_auc", "f1", "neg_log_loss"]},
+                       index=["train mean", "CV mean", "CV sd"]).round(4)
+print(summary.to_string())
 """))
 
 A(md(r"""
@@ -353,20 +380,51 @@ ax[1].set_title("Random search: sampled configurations"); plt.colorbar(sc_, ax=a
 plt.tight_layout(); plt.show()
 """))
 
+A(md(r"""
+**Why random search wins in higher dimensions — a toy.** Suppose the validation score depends strongly on one hyperparameter and hardly at all on another, $f(u, v) = g(u) + 0.01\,h(v)$. A $3\times 3$ grid tries only **3 distinct values** of the important $u$; 9 random points try **9**. With a budget of $N$ evaluations in $D$ dimensions, a grid gives $N^{1/D}$ distinct values per axis while random search gives $N$.
+"""))
+
 A(code(r"""
-# Selection bias made visible: pure-noise labels, many candidate models.
-# The best CV score is far above 50% chance, while nested CV correctly reports ~50%.
-Xn = rng.normal(size=(120, 50))
-yn = rng.integers(0, 2, 120)
-noise_pipe = Pipeline([("scale", StandardScaler()), ("svc", SVC())])
-noise_grid = {"svc__C": np.logspace(-2, 3, 8), "svc__gamma": np.logspace(-4, 1, 8)}
+g = lambda u: np.exp(-((u - 0.73) / 0.08) ** 2)          # sharp optimum in the important parameter
+h = lambda v: np.sin(6 * v)
+f = lambda u, v: g(u) + 0.01 * h(v)
+def best_found(pts):
+    return f(pts[:, 0], pts[:, 1]).max()
+
+grid_vals = np.linspace(0.1, 0.9, 3)
+grid_pts = np.array([(u, v) for u in grid_vals for v in grid_vals])
+rand_best = [best_found(np.random.default_rng(s).random((9, 2))) for s in range(500)]
+print(f"grid (9 evals):   best f = {best_found(grid_pts):.3f}")
+print(f"random (9 evals): median best f = {np.median(rand_best):.3f}, P(beats grid) = {np.mean(np.array(rand_best) > best_found(grid_pts)):.2f}")
+"""))
+
+A(code(r"""
+# Selection bias made visible: pure-noise labels, 100 candidate "models" (logistic regression on
+# 100 different random 3-feature subsets). The best CV score is well above 50% chance, purely by luck,
+# while nested CV (which re-runs the selection inside each outer training fold) reports ~chance.
+from sklearn.preprocessing import FunctionTransformer
+
+def take_cols(X, cols):
+    return X[:, cols]
+
+rng_noise = np.random.default_rng(1)
+Xn = rng_noise.normal(size=(80, 100))
+yn = rng_noise.integers(0, 2, 80)
+candidates = [{"cols": rng_noise.choice(100, 3, replace=False)} for _ in range(100)]
+noise_pipe = Pipeline([("sel", FunctionTransformer(take_cols)), ("clf", LogisticRegression())])
+noise_grid = {"sel__kw_args": candidates}
 inner = StratifiedKFold(5, shuffle=True, random_state=1)
 outer = StratifiedKFold(5, shuffle=True, random_state=2)
 
-gs = GridSearchCV(noise_pipe, noise_grid, cv=inner, n_jobs=-1).fit(Xn, yn)
-nested = cross_val_score(GridSearchCV(noise_pipe, noise_grid, cv=inner, n_jobs=-1), Xn, yn, cv=outer)
-print(f"best (non-nested) CV accuracy over 64 configs: {gs.best_score_:.3f}   <- optimistic")
-print(f"nested CV accuracy:                             {nested.mean():.3f}   <- honest (chance = 0.5)")
+gs = GridSearchCV(noise_pipe, noise_grid, cv=inner).fit(Xn, yn)
+nested = cross_val_score(GridSearchCV(noise_pipe, noise_grid, cv=inner), Xn, yn, cv=outer)
+plt.figure(figsize=(6, 3.5))
+plt.hist(gs.cv_results_["mean_test_score"], bins=15, edgecolor="k")
+plt.axvline(0.5, c="k", ls="--", label="chance")
+plt.axvline(gs.best_score_, c="r", label=f"best of 100 = {gs.best_score_:.3f}")
+plt.axvline(nested.mean(), c="g", label=f"nested CV = {nested.mean():.3f}")
+plt.xlabel("CV accuracy of candidate"); plt.legend(fontsize=8); plt.title("Winner's curse on pure noise")
+plt.tight_layout(); plt.show()
 
 # Nested CV on the real problem
 nested_bc = cross_val_score(GridSearchCV(pipe, param_grid, cv=inner, n_jobs=-1), Xb, yb, cv=outer)
@@ -407,7 +465,7 @@ correct_pipe = Pipeline([("scale", StandardScaler()), ("select", SelectKBest(f_c
                          ("clf", LogisticRegression(max_iter=1000))])
 correct = cross_val_score(correct_pipe, Xl, yl, cv=cv)
 print(f"leaky feature selection outside CV: accuracy = {leaky.mean():.3f}  (labels are random!)")
-print(f"selection inside Pipeline:          accuracy = {correct.mean():.3f}  (chance level, as it should be)")
+print(f"selection inside Pipeline:          accuracy = {correct.mean():.3f}  (no better than chance; noisy with n=100)")
 """))
 
 A(code(r"""
@@ -426,7 +484,7 @@ def leak_vs_pipe(seed):
     a = cross_val_score(Ridge(1.0), X_imp_all, yr, cv=cvr, scoring="r2").mean()
     b = cross_val_score(make_pipeline(SimpleImputer(), StandardScaler(), Ridge(1.0)), Xr_miss, yr, cv=cvr, scoring="r2").mean()
     return a, b
-vals = np.array([leak_vs_pipe(s) for s in range(20)])
+vals = np.array([leak_vs_pipe(s) for s in range(10)])
 print(f"R^2 imputer+scaler fitted on all data: {vals[:, 0].mean():.4f}")
 print(f"R^2 imputer+scaler inside Pipeline:    {vals[:, 1].mean():.4f}")
 print(f"(mild) optimistic difference: {np.mean(vals[:, 0] - vals[:, 1]):+.4f}")
